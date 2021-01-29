@@ -1,0 +1,13 @@
+.ButtonSelectionUnclicked {
+    color: #7273ff !important;
+    background-color: transparent !important;
+    border-color: #7273ff !important;
+    transition: .2s ease-in !important;
+    margin: 5px !important;
+}
+
+.ButtonSelectionClicked {
+    color: #fff !important;
+    background-color: #7273ff !important;
+    margin: 5px !important;
+}
