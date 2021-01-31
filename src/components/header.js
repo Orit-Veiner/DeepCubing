@@ -11,7 +11,7 @@ class Header extends Component {
                         <Row>
                             <Col lg="3"></Col>
                             <Col lg="6">
-                                <h1>Application</h1>
+                                <h1>DeepCubing My Heart Out</h1>
                             </Col>
                         </Row>
                     </Container>

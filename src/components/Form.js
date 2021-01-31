@@ -9,12 +9,15 @@ import Header from './header.js';
 
 class Form extends Component {
     render() {
-        const netwroksNames = [ 
-        'Resnet-50',
-        'MobileNet-V2',
-        'BERT-Large-384',
-        'VGG-11',
-        'DLRM'];
+        const networkNamesMapping = { 
+        'Resnet-50': 'RESNET_50',
+        'MobileNet-V2': 'MOBILENET_V2',
+        'BERT-Large-384': 'BERT',
+        'VGG-11': 'VGG_11',
+        'DLRM': 'DLRM'
+    };
+
+    const networkNames = Object.keys(networkNamesMapping);
 
         const batchSizesNames = [ 
             1,
@@ -27,6 +30,7 @@ class Form extends Component {
 
         const maxNumOfCores = 12;
         const numberOfCoresNames = [...Array(maxNumOfCores+1).keys()].slice(1);;
+        const resultsTitle = <h3>Benchmark Results</h3>;
 
         return (
             <div id="main-wrapper">
@@ -38,7 +42,7 @@ class Form extends Component {
                             <Row className="justify-content-center">
                             <Col lg="12">
                                 <NetworksSelection 
-                                netwroksNames={netwroksNames}
+                                networkNames={networkNames}
                                 setNetwork={this.props.setNetwork}
                                 selectedNetwork={this.props.selectedNetwork}
                                 />
@@ -73,13 +77,19 @@ class Form extends Component {
 
                             <SubmitButton
                             {...this.props} />
-
-                            {this.props.apiResults !== null ? 
-                                <Graph 
-                                    graph1={0.6}
-                                    graph2={50.9}
-                                    graph3={75.2}
-                                /> : null}
+                            
+                            {this.props.apiResults.length > 0 ? resultsTitle : null}
+                            {this.props.apiResults.length > 0 ?
+                                this.props.apiResults.map((response, i) => {
+                                    return ( 
+                                    <Graph 
+                                        key={i}
+                                        graph1={response.data[0]}
+                                        graph2={response.data[1]}
+                                        graph3={response.data[2]}
+                                    />)                          
+                                })
+                                 : null}
                         </Container>
                         </div>
                     </div>

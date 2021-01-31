@@ -11,18 +11,18 @@ class SubmitButton extends Component {
         let i = 1;
         this.messages = [];
   
-        if (this.props.selectedNetwork === 'select') {
-            this.messages.push(<Alert key={i} color="danger">Please select network</Alert>);
+        if (this.props.selectedNetwork === 'Select') {
+            this.messages.push(<Alert key={i} color="danger">I cannot be fooled. Please select a network. I can wait.</Alert>);
             isValid = false;
             i++;
         }
         if (!(this.props.batchSizes.length > 0)) {
-            this.messages.push(<Alert key={i} color="danger">Please select at least one batch size</Alert>);
+            this.messages.push(<Alert key={i} color="danger">Please select at least one batch size.</Alert>);
             isValid = false;
             i++;
         }
         if (!(this.props.NumberOfCores.length > 0)){
-            this.messages.push(<Alert key={i} color="danger">Please select at least one core</Alert>);
+            this.messages.push(<Alert key={i} color="danger">Please select at least one core.</Alert>);
             isValid = false;
             i++;
         }
@@ -33,19 +33,55 @@ class SubmitButton extends Component {
 
     }
 
+
     submitClick = (props) => {
+
+
+        const networkNamesMapping = { 
+            'Resnet-50': 'RESNET_50',
+            'MobileNet-V2': 'MOBILENET_V2',
+            'BERT-Large-384': 'BERT',
+            'VGG-11': 'VGG_11',
+            'DLRM': 'DLRM'
+        };
 
         const isValid = this.validateForm();
 
-        if (isValid) {
-            axios.get('https://jsonplaceholder.typicode.com/todos/1')
-            .then(response => {
-                console.log(response);
-                this.props.setApiResults(response);
-            })
-            .catch(error => {
-                console.log('error => ' + error);
-            })
+        if (isValid) {            
+            const numOfBatches = this.props.batchSizes.length;
+            const numOfCores = this.props.NumberOfCores.length;
+
+            //Get each core and each batch at a time
+            for (let batchIndex = 0; batchIndex < numOfBatches; batchIndex++) {
+                let batch = this.props.batchSizes[batchIndex];
+                for (let coreIndex = 0; coreIndex < numOfCores; coreIndex++) {
+                    let core = this.props.NumberOfCores[coreIndex];
+                    
+                //Request for backend
+                let config = {
+                    method: 'post',
+                    url: 'http://localhost:8080/benchmark',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    data : {
+                        model: networkNamesMapping[this.props.selectedNetwork],
+                        batchSize: batch,
+                        coresNum: core
+                    }
+                };
+    
+                axios(config)
+                .then(response => {
+                    this.props.pushApiResponses(response);
+                })
+                .catch(error => {
+                    console.log('error => ' + error);
+                });
+                }
+            }
+
+            this.props.setApiResults(this.props.apiResponses);
         }
         
     }
@@ -56,11 +92,10 @@ class SubmitButton extends Component {
             <div className="container-fluid">
             <Container>
             <Row>
-          
+              <br /><br /><br />
               <Col lg="12" className="align-self-center">
-              <Button color="success" onClick={this.submitClick}>Initiate Benchmark</Button>{' '}
+              <Button style={{backgroundColor: '#7273ff', fontWeight: 'bold'}} color="black" onClick={this.submitClick}>Initiate Benchmarks</Button>{' '}
               </Col> 
-       
             </Row>
             </Container>
             <br />

@@ -1,5 +1,5 @@
-import React, { useState  } from 'react';
-import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const NetworksSelection = (props) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,33 +10,33 @@ const NetworksSelection = (props) => {
         props.setNetwork(itemName);
     }
 
-        return (
-            <div className="page-wrapper">
+    return (
+        <div className="page-wrapper">
             <div className="container-fluid">
-            <Container>
-                <Row>
-                <Col lg="3">Networks: </Col> 
-              <Col lg="9">
-                <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-        <DropdownToggle caret>
-            {props.selectedNetwork}
-        </DropdownToggle>
-        <DropdownMenu>
-            {props.netwroksNames.map((item, i) =>
-                <DropdownItem key={i} onClick={() => selectedItem(item)}>{item}</DropdownItem>
-            )}
-        </DropdownMenu>
-        </Dropdown>
-              </Col>                             
-           </Row>                                                               
-            </Container>
-                
+                <Container>
+                    <Row>
+                        <Col lg="3">Networks: </Col>
+                        <Col lg="9">
+                            <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                                <DropdownToggle caret>
+                                    {props.selectedNetwork}
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    {props.networkNames.map((item, i) =>
+                                        <DropdownItem key={i} onClick={() => selectedItem(item)}>{item}</DropdownItem>
+                                    )}
+                                </DropdownMenu>
+                            </Dropdown>
+                        </Col>
+                    </Row>
+                </Container>
+
             </div>
-               
-            </div>
-            
-           
-        );
+
+        </div>
+
+
+    );
 }
 
 export default NetworksSelection;

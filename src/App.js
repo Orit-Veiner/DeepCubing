@@ -5,11 +5,18 @@ import Form from './components/Form.js';
 class App extends Component {
 
   state = {
-    apiResults: null,
-    selectedNetwork: 'select',
+    apiResults: [],
+    selectedNetwork: 'Select',
     batchSizes: [],
     NumberOfCores: [],
     validationMessagesElements:  [],
+    apiResponses: []
+  }
+
+  pushApiResponses = (response) => {
+    let currResponses = this.state.apiResponses;
+    currResponses.push(response);
+    this.setState({apiResponses: currResponses});
   }
 
   setMessagesElements = (messages) => {
@@ -94,8 +101,6 @@ class App extends Component {
   };  
 
   render() {
-    console.log(this.state);
-
     return (
           <Form 
             setApiResults={this.setApiResults}
@@ -104,6 +109,7 @@ class App extends Component {
             setMessagesElements={this.setMessagesElements}
             setDisplayMessages={this.setDisplayMessages}
             removeButtonSelection={this.removeButtonSelection}
+            pushApiResponses={this.pushApiResponses}
             {...this.state}
           />
     )}

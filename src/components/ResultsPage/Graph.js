@@ -7,16 +7,32 @@ class Graph extends Component {
             <div className="page-wrapper">
                 <div className="container-fluid"><br /><br />
                     <Container>
-                    <Row>
-                        <Col lg="12">
-                            <h3>Benchmark Results</h3>
-                        </Col>
-                    </Row>
                         <Row>
                             <Col lg="12">
-                                <Progress color="success" value={this.props.graph1 * 100}>{this.props.graph1}</Progress>
-                                <Progress color="info" value={this.props.graph2}>{this.props.graph2}</Progress>
-                                <Progress color="warning" value={this.props.graph3}>{this.props.graph3}</Progress>
+                                <Row>
+                                    <Col lg="1">
+                                        <div>CubeEngine:</div>
+                                    </Col>
+                                    <Col lg="11">
+                                        <Progress color="success" value={this.props.graph1 / 10}>{(this.props.graph1).toFixed(2)}</Progress>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg="1">
+                                        <div>OpenVino:</div>
+                                    </Col>
+                                    <Col lg="11">
+                                        <Progress color="info" value={this.props.graph2 / 10}>{(this.props.graph2).toFixed(2)}</Progress>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg="1">
+                                        <div>ONNX:</div>
+                                    </Col>
+                                    <Col lg="11">
+                                        <Progress color="warning" value={this.props.graph3 / 10}>{(this.props.graph3).toFixed(2)}</Progress>
+                                    </Col>
+                                </Row>
                             </Col>
                         </Row>
                     </Container></div></div>
